@@ -16,7 +16,7 @@ A Python CLI tool for querying domain categorizations via the Lightspeed Systems
 1. Clone the repository and navigate to it:
 
    ```bash
-   git clone https://github.com/your-username/lightspeed-categorization-tool.git
+   git clone https://github.com/silentsparrows/lightspeed-categorization-tool.git
    cd lightspeed-categorization-tool
    ```
 3. Install required dependencies:
