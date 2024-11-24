@@ -23,10 +23,13 @@ def main():
         choice = Prompt.ask("Enter 1 or 2", choices=["1", "2"])
 
         if choice == "1":
-            sub_choice = input("\n[bold]Choose how to provide domains:[/]\n[1] Enter a single domain\n[2] Provide domains in 'links.txt' for bulk query\n")
-
+            console.print("\n[bold]Choose how to provide domains:[/]")
+            console.print("[1] Enter a single domain")
+            console.print("[2] Provide domains in 'links.txt' for bulk query")
+            sub_choice = Prompt.ask("Enter 1 or 2", choices=["1", "2"]).strip().upper()
+            
             if sub_choice == "1":
-                domain = input("\nEnter a single domain to check: ")
+                domain = Prompt.ask("\nEnter a single domain to check")
                 query_domain_category(domain)
 
             elif sub_choice == "2":
