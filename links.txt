@@ -1,4 +1,2 @@
-google.com
-bing.comd
-discord.com
-surfdoge.pro
+twitter.com
+example.com
