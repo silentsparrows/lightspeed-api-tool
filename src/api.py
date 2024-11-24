@@ -1,6 +1,6 @@
 import requests
 from src.category_utils import get_category_by_number
-from src.console_utils import print_category_results, print_no_category_found, print_failed_request
+from src.console_utils import print_category_results, print_no_category_found, print_failed_request, print_filtered_domains
 
 url = "https://production-archive-proxy-api.lightspeedsystems.com/archiveproxy"
 headers = {
@@ -54,8 +54,8 @@ def query_domain_category(domain):
         print_failed_request(domain, response.status_code)
 
 def filter_domains_by_category(links, category_name):
-    """Filters domains based on a specific category."""
-    filtered_domains = []
+    """Filters domains based on a specific category and prints matching domains in real-time."""
+    filtered_domains = []  # This will store domains that match
     for domain in links:
         body = {
             "query": """
@@ -83,5 +83,6 @@ def filter_domains_by_category(links, category_name):
                 category_name_from_api = get_category_by_number(a_cat)
                 if category_name_from_api and category_name_from_api.lower() == category_name.lower():
                     filtered_domains.append(domain)
+                    print_filtered_domains([domain], category_name)  # Print immediately when a match is found
 
     return filtered_domains

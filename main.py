@@ -51,7 +51,10 @@ def main():
                 print(f"\nFiltering domains under category '{category_name}'...\n")
                 filtered_domains = filter_domains_by_category(links, category_name)
 
-                print_filtered_domains(filtered_domains, category_name)
+                # The real-time printing will already be handled by the filter function
+                # If no domains were found, print the final message
+                if not filtered_domains:
+                    print_filtered_domains([], category_name)
 
             else:
                 console.print("[bold red]Invalid option selected. Exiting.[/]")

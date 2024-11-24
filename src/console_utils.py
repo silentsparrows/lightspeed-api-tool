@@ -27,4 +27,4 @@ def print_filtered_domains(filtered_domains, category_name):
         for domain in filtered_domains:
             console.print(f"- {domain}")
     else:
-        console.print(f"\n[bold red]No domains found under the '{category_name}' category.")
+        console.print(f"\n[bold red]No domains found under the '{category_name}' category.[/]")
