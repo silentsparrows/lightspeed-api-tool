@@ -1,6 +1,5 @@
 from rich.console import Console
 from rich.panel import Panel
-from rich.text import Text
 
 console = Console()
 
@@ -26,5 +25,3 @@ def print_filtered_domains(filtered_domains, category_name):
         console.print(f"\n[bold green]Filtered Domains under '{category_name}':[/]")
         for domain in filtered_domains:
             console.print(f"- {domain}")
-    else:
-        console.print(f"\n[bold red]No domains found under the '{category_name}' category.[/]")

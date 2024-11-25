@@ -1,10 +1,10 @@
-import argparse
 from rich.console import Console
 from rich.prompt import Prompt
 from src.api import query_domain_category, filter_domains_by_category
 from src.file_utils import load_links_from_file
-from src.console_utils import print_welcome, print_category_results, print_filtered_domains
+from src.console_utils import print_welcome, print_filtered_domains
 from src.params import parse_arguments, run_with_args
+from concurrent.futures import ThreadPoolExecutor
 
 def main():
     console = Console()
@@ -38,8 +38,11 @@ def main():
                     if not links:
                         return
                     print(f"\nChecking categories for {len(links)} domains...\n")
-                    for domain in links:
-                        query_domain_category(domain)
+                    with ThreadPoolExecutor() as executor:
+                        # "Submit tasks for querying all domains concurrently" stack overflow
+                        futures = [executor.submit(query_domain_category, domain) for domain in links]
+                        for future in futures:
+                            future.result()  # wait until all of the futures are done
 
             elif choice == "2":
                 category_name = input("\nEnter the category name to filter by (see ls.json for details): ")
