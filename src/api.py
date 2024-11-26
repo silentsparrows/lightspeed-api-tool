@@ -54,21 +54,23 @@ def query_domain_category(domain):
     else:
         print_failed_request(domain, response.status_code)
 
-def filter_domains_by_category(links, category_name):
-    """Filters domains based on a specific category and prints matching domains in real-time."""
-    filtered_domains = []  # stores domains that match filter
+def filter_domains_by_category(links, category_names):
+    """Filters domains based on one or more categories and prints matching domains in real-time."""
+    filtered_domains = []
     with ThreadPoolExecutor() as executor:
-        futures = {executor.submit(process_domain_filter, domain, category_name, filtered_domains): domain for domain in links}
+        futures = {
+            executor.submit(process_domain_filter, domain, category_names, filtered_domains): domain
+            for domain in links
+        }
         for future in as_completed(futures):
             future.result()
 
-    # checking
     if not filtered_domains:
-        console.print("[bold red]No domains found under the specified category.[/]")
+        console.print("[bold red]No domains found under the specified categories.[/]")
     return filtered_domains
 
-def process_domain_filter(domain, category_name, filtered_domains):
-    """Handles the filtering for each domain."""
+def process_domain_filter(domain, category_names, filtered_domains):
+    """Handles the filtering for each domain with multiple categories."""
     body = {
         "query": """
             query getDeviceCategorization($itemA: CustomHostLookupInput!){
@@ -93,7 +95,6 @@ def process_domain_filter(domain, category_name, filtered_domains):
 
         if a_cat:
             category_name_from_api = get_category_by_number(a_cat)
-            if category_name_from_api and category_name_from_api.lower() == category_name.lower():
-                filtered_domains.append(domain)  # + list
-                # SHow each matching domain immediately
-                print_filtered_domains([domain], category_name)
+            if category_name_from_api and any(category_name_from_api.lower() == cat.lower() for cat in category_names):
+                filtered_domains.append(domain)
+                print_filtered_domains([domain], ", ".join(category_names))

@@ -19,7 +19,7 @@ def main():
             print_welcome()
             console.print("\n[bold]Choose an option:[/]")
             console.print("[1] Get categorization results from domain")
-            console.print("[2] Filter out domains for a certain category")
+            console.print("[2] Filter out domains for certain categories")
 
             choice = Prompt.ask("Enter 1 or 2", choices=["1", "2"])
 
@@ -39,25 +39,23 @@ def main():
                         return
                     print(f"\nChecking categories for {len(links)} domains...\n")
                     with ThreadPoolExecutor() as executor:
-                        # "Submit tasks for querying all domains concurrently" stack overflow
                         futures = [executor.submit(query_domain_category, domain) for domain in links]
                         for future in futures:
                             future.result()  # wait until all of the futures are done
 
             elif choice == "2":
-                category_name = input("\nEnter the category name to filter by (see ls.json for details): ")
+                categories_input = input("\nEnter the category names to filter by, separated by commas (e.g., security, world, travel): ")
+                categories = [cat.strip() for cat in categories_input.split(",")]
 
                 links = load_links_from_file('links.txt')
                 if not links:
                     return
 
-                print(f"\nFiltering domains under category '{category_name}'...\n")
-                filtered_domains = filter_domains_by_category(links, category_name)
+                print(f"\nFiltering domains under categories: {', '.join(categories)}...\n")
+                filtered_domains = filter_domains_by_category(links, categories)
 
-                # The real-time printing will already be handled by the filter function
-                # If no domains were found, print the final message
                 if not filtered_domains:
-                    print_filtered_domains([], category_name)
+                    print_filtered_domains([], ", ".join(categories))
 
             else:
                 console.print("[bold red]Invalid option selected. Exiting.[/]")
