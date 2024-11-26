@@ -27,18 +27,14 @@ A Python CLI tool for querying domain categorizations via the Lightspeed Systems
 ## Usage
 Run with `python main.py` for the CLI. This project also supports the following arguments:
 ```
-usage: python main.py [-h] [--bulk-cr] [-d DOMAIN] [-filter CATEGORY_NAME]
-
-A tool for domain categorization and filtering.
+usage: python main.py [-h] [--bulk-cr] [-d D] [-filter FILTER]
 
 options:
-  -h, --help            Show this help message and exit.
-  --bulk-cr             Bulk query: Check categories for all domains in 'links.txt'.
-  -d DOMAIN, --d DOMAIN
-                        Query a single domain (e.g., 'example.com').
-  -filter CATEGORY_NAME
-                        Filter domains by category (e.g., 'security.proxy').
-
+  -h, --help            show this help message and exit
+  --bulk-cr             Bulk query: Check categories for all domains in 'links.txt'
+  -d D, --d D           Query a single domain (e.g., 'example.com')
+  -filter FILTER, --filter FILTER
+                        Filter domains by categories (comma-separated, NO SPACES, e.g., 'general,computers')
 ```
 
 
